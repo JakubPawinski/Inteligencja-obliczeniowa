@@ -40,3 +40,9 @@ Temporary Items
 *.png
 *.jpglab05/model_dogs_cats.h5
 lab05/model_dogs_cats.keras
+*.keras
+*.h5
+*.hdf5
+*.hdf
+lab05/best_model.h5
+lab05/dogs-cats-mini

@@ -6,6 +6,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.callbacks import ModelCheckpoint
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -237,7 +238,15 @@ def main():
 
     earlystop = EarlyStopping(patience=10)
     learning_rate_reduction = ReduceLROnPlateau(monitor='val_accuracy', patience=2, verbose=1, factor=0.5, min_lr=0.00001)
-    callbacks = [earlystop, learning_rate_reduction]
+
+    checkpoint = ModelCheckpoint(
+        filepath='best_model.h5',  # Nazwa pliku, w którym model będzie zapisywany
+        monitor='val_accuracy',   # Monitorujemy dokładność walidacyjną
+        save_best_only=True,      # Zapisujemy tylko, gdy wynik jest lepszy niż poprzedni
+        mode='max',               # Szukamy maksymalnej wartości (dla dokładności)
+        verbose=1                 # Wyświetlamy informacje o zapisie modelu
+    )
+    callbacks = [earlystop, learning_rate_reduction, checkpoint]
 
 
     epochs=1 if FAST_RUN else 50
