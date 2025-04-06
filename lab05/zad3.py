@@ -23,13 +23,13 @@ IMAGE_CHANNELS=3
 BATCH_SIZE=64
 
 def map_predictions_to_labels(predicted_classes, validation_generator):
-    """Mapuje przewidziane klasy numeryczne na nazwy kategorii"""
+
     label_map = dict((v, k) for k, v in validation_generator.class_indices.items())
     predicted_labels = [label_map[i] for i in predicted_classes]
     return predicted_labels
 
 def visualize_predictions(validate_df, predicted_labels, dir_data, image_size, sample_count=9):
-    """Wizualizuje obrazy z porównaniem prawdziwych etykiet i predykcji"""
+
     validate_df_sample = validate_df.head(sample_count).copy()
     validate_df_sample['predicted_category'] = predicted_labels[:sample_count]
     
@@ -48,7 +48,6 @@ def visualize_predictions(validate_df, predicted_labels, dir_data, image_size, s
     return validate_df_sample
 
 def plot_prediction_stats(predicted_labels):
-    """Tworzy wykres słupkowy pokazujący liczbę predykcji dla każdej klasy"""
     plt.figure(figsize=(8, 5))
     labels, counts = np.unique(predicted_labels, return_counts=True)
     plt.bar(labels, counts)
@@ -58,7 +57,6 @@ def plot_prediction_stats(predicted_labels):
     plt.show()
 
 def save_results_to_csv(validate_df, predicted_labels, filename='predictions_results.csv'):
-    """Zapisuje wyniki predykcji do pliku CSV"""
     results_df = pd.DataFrame({
         'filename': validate_df['filename'],
         'true_category': validate_df['category'],
