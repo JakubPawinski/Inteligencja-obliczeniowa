@@ -2,6 +2,7 @@ import pandas as pd
 import numpy
 import pygad
 import time
+import matplotlib.pyplot as plt
 maze = [
     ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
     ['1', 'S', '0', '0', '1', '0', '0', '0', '0', '0', '1'],
@@ -74,6 +75,8 @@ mutation_percent_genes = 10
 num_runs = 10
 target_fitness = 970
 successful_times = []
+
+ga_instances = []
 for run in range(num_runs):
     start = time.time()
     print(f"\nRun {run+1}/{num_runs}")
@@ -100,9 +103,23 @@ for run in range(num_runs):
     if solution_fitness >= target_fitness:
         successful_times.append(end - start)
 
+    ga_instances.append(ga_instance)
+
 # print(successful_times)
 print("\nAverage time of successful runs: ", numpy.mean(successful_times), "seconds")
-ga_instance.plot_fitness()
+
+
+plt.figure(figsize=(5, 10))
+for i, ga_instance in enumerate(ga_instances):
+    plt.subplot(5, 2, i+1)  
+    plt.plot(ga_instance.best_solutions_fitness)
+    plt.title(f"Run {i+1} - Best fitness: {ga_instance.best_solution()[1]:.2f}")
+    plt.xlabel("Generation")
+    plt.ylabel("Fitness")
+    plt.grid(True)
+
+plt.tight_layout()
+plt.show()
 
 
 
